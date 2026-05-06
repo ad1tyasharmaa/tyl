@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Sharma</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;min-height:100vh;background:#0c0c0c;color:#f0ede6;font-family:'Space Mono',monospace}
+
+/* draggable ball */
+#ball{
+  position:fixed;right:24px;top:24px;
+  width:90px;height:90px;border-radius:50%;
+  padding:2.5px;
+  background:linear-gradient(135deg,#e67e22 0%,#e74c3c 50%,#8b5cf6 100%);
+  cursor:grab;z-index:200;
+  user-select:none;-webkit-user-select:none;touch-action:none;
+  opacity:0;
+  animation:ballPop 0.55s cubic-bezier(.34,1.56,.64,1) 0.6s forwards, pulse 2.5s ease-out 1.3s infinite;
+}
+@keyframes ballPop{from{opacity:0;transform:scale(0.3)}to{opacity:1;transform:scale(1)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(230,126,34,0.4)}70%{box-shadow:0 0 0 16px rgba(230,126,34,0)}100%{box-shadow:0 0 0 0 rgba(230,126,34,0)}}
+#ball:active{cursor:grabbing}
+#ball-inner{width:100%;height:100%;border-radius:50%;background:#111;overflow:hidden;display:flex;align-items:center;justify-content:center}
+#ball-inner img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;border-radius:50%}
+#ball-fb{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#e67e22;display:none}
+
+/* main */
+#wrap{
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100vh;padding:80px 24px 60px;
+  opacity:0;animation:fadeIn 0.4s ease 0.1s forwards;
+}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.name{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(1.7rem,5vw,2.3rem);letter-spacing:-0.03em;color:#f0ede6;margin-bottom:6px}
+.tagline{font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:#444;margin-bottom:44px}
+
+/* buttons */
+.links{width:100%;max-width:480px;display:flex;flex-direction:column;gap:12px}
+
+.btn{
+  display:flex;align-items:center;
+  width:100%;padding:0 20px;height:64px;
+  border-radius:16px;text-decoration:none;
+  border:1px solid #1e1e1e;background:#111;color:#f0ede6;
+  font-family:'Space Mono',monospace;font-size:13px;letter-spacing:0.04em;
+  cursor:pointer;transition:transform 0.15s,background 0.15s,border-color 0.15s;
+  opacity:0;
+}
+.btn:nth-child(1){animation:btnIn 0.4s cubic-bezier(.34,1.4,.64,1) 0.2s forwards}
+.btn:nth-child(2){animation:btnIn 0.4s cubic-bezier(.34,1.4,.64,1) 0.3s forwards}
+.btn:nth-child(3){animation:btnIn 0.4s cubic-bezier(.34,1.4,.64,1) 0.4s forwards}
+.btn:nth-child(4){animation:btnIn 0.4s cubic-bezier(.34,1.4,.64,1) 0.5s forwards}
+@keyframes btnIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.btn:hover{transform:scale(1.022);background:#161616;border-color:#2a2a2a}
+.btn:active{transform:scale(0.985)}
+
+/* primary (portfolio) */
+.btn.primary{background:#f0ede6;color:#0c0c0c;border-color:#f0ede6;font-weight:700}
+.btn.primary:hover{background:#e5e1da;border-color:#e5e1da}
+.btn.primary .ic{background:rgba(0,0,0,0.09);color:#0c0c0c}
+
+.ic{width:38px;height:38px;border-radius:10px;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-right:14px}
+.lbl{flex:1;text-align:left}
+.arr{font-size:14px;opacity:0.3;transition:opacity 0.15s,transform 0.15s}
+.btn:hover .arr{opacity:0.7;transform:translateX(3px)}
+
+.foot{margin-top:40px;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:#1e1e1e;text-align:center}
+</style>
+</head>
+<body>
+
+<div id="ball">
+  <div id="ball-inner">
+    <!-- REPLACE src with your actual photo URL e.g. https://github.com/YOUR_USERNAME.png -->
+    <img src="data:image/jpeg;base64,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" alt="Aditya" onerror="this.style.display='none';document.getElementById('ball-fb').style.display='block'">
+    <span id="ball-fb">AS</span>
+  </div>
+</div>
+
+<div id="wrap">
+  <h1 class="name">Aditya Sharma</h1>
+  <p class="tagline">Engineer &amp; Builder</p>
+
+  <div class="links">
+
+    <a class="btn primary" href="https://ad1tyasharmaa.vercel.app/portfolio.html" target="_blank" rel="noopener">
+      <span class="ic">⚡</span>
+      <span class="lbl">Portfolio</span>
+      <span class="arr">→</span>
+    </a>
+
+    <a class="btn" href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener">
+      <span class="ic" style="background:#0a1628;color:#4a9de8;font-family:'Syne',sans-serif;font-weight:800;font-size:13px">in</span>
+      <span class="lbl">LinkedIn</span>
+      <span class="arr">→</span>
+    </a>
+
+    <a class="btn" href="https://github.com/YOUR_GITHUB" target="_blank" rel="noopener">
+      <span class="ic" style="font-size:18px">⌥</span>
+      <span class="lbl">GitHub</span>
+      <span class="arr">→</span>
+    </a>
+
+    <a class="btn" href="mailto:24adisharma@gmail.com">
+      <span class="ic" style="background:#1a0a0a;color:#e67e22;font-size:14px">@</span>
+      <span class="lbl">24adisharma@gmail.com</span>
+      <span class="arr">→</span>
+    </a>
+
+  </div>
+
+  <p class="foot">you defeated the boss &nbsp;·&nbsp; welcome</p>
+</div>
+
+<script>
+const ball = document.getElementById('ball');
+const BALL_SIZE = 90;
+
+// Physics state
+let bx = window.innerWidth - BALL_SIZE - 24;
+let by = 24;
+let vx = (Math.random() > 0.5 ? 1 : -1) * (5 + Math.random() * 4);
+let vy = (Math.random() > 0.5 ? 1 : -1) * (4 + Math.random() * 4);
+let dragging = false;
+let ox = 0, oy = 0;
+let lastX = bx, lastY = by;
+let animId;
+
+function applyPos(x, y) {
+  ball.style.right = 'auto';
+  ball.style.left = x + 'px';
+  ball.style.top = y + 'px';
+}
+
+function bounce() {
+  if (dragging) { animId = requestAnimationFrame(bounce); return; }
+
+  bx += vx;
+  by += vy;
+
+  const maxX = window.innerWidth - BALL_SIZE;
+  const maxY = window.innerHeight - BALL_SIZE;
+
+  // Bounce off walls — full corner reach
+  if (bx <= 0) { bx = 0; vx = Math.abs(vx) * (0.97 + Math.random()*0.06); }
+  if (bx >= maxX) { bx = maxX; vx = -Math.abs(vx) * (0.97 + Math.random()*0.06); }
+  if (by <= 0) { by = 0; vy = Math.abs(vy) * (0.97 + Math.random()*0.06); }
+  if (by >= maxY) { by = maxY; vy = -Math.abs(vy) * (0.97 + Math.random()*0.06); }
+
+  // Keep speed up so it always reaches corners
+  const speed = Math.sqrt(vx*vx + vy*vy);
+  const minSpeed = 7;
+  const maxSpeed = 14;
+  if (speed < minSpeed) {
+    const scale = minSpeed / speed;
+    vx *= scale; vy *= scale;
+  }
+  if (speed > maxSpeed) {
+    const scale = maxSpeed / speed;
+    vx *= scale; vy *= scale;
+  }
+
+  applyPos(bx, by);
+  animId = requestAnimationFrame(bounce);
+}
+
+// Start bouncing after pop animation
+setTimeout(() => {
+  ball.style.right = 'auto';
+  applyPos(bx, by);
+  animId = requestAnimationFrame(bounce);
+}, 800);
+
+// Drag support
+ball.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  dragging = true;
+  cancelAnimationFrame(animId);
+  ball.setPointerCapture(e.pointerId);
+  const r = ball.getBoundingClientRect();
+  ox = e.clientX - r.left;
+  oy = e.clientY - r.top;
+  lastX = bx; lastY = by;
+  ball.style.transition = 'none';
+});
+
+ball.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  const px = bx, py = by;
+  bx = Math.max(0, Math.min(window.innerWidth - BALL_SIZE, e.clientX - ox));
+  by = Math.max(0, Math.min(window.innerHeight - BALL_SIZE, e.clientY - oy));
+  vx = (bx - px) * 0.7;
+  vy = (by - py) * 0.7;
+  applyPos(bx, by);
+});
+
+ball.addEventListener('pointerup', () => {
+  dragging = false;
+  // clamp velocity on release
+  const speed = Math.sqrt(vx*vx + vy*vy);
+  if (speed < 5) { vx = (vx/Math.max(speed,0.1))*5; vy = (vy/Math.max(speed,0.1))*5; }
+  if (speed > 16) { vx = (vx/speed)*16; vy = (vy/speed)*16; }
+  animId = requestAnimationFrame(bounce);
+});
+
+window.addEventListener('resize', () => {
+  bx = Math.min(bx, window.innerWidth - BALL_SIZE);
+  by = Math.min(by, window.innerHeight - BALL_SIZE);
+});
+</script>
+</body>
+</html>
